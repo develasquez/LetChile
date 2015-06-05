@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html lang="es">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+
+    <title>Inspecciones</title> 
+    <link href="css/jquery.mobile-1.3.2.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <head >
+        <title></title>
+    </head>
+    <body>
+        <!-- LOGIN -->
+        <div data-role="page" id="main" data-theme="c">
+            <div data-role="header">
+                <h3>Login de Usuario</h3>  
+            </div>
+            <div  data-role="content"  >
+                <ul data-role="listview" >
+                    <li>
+                        <label for="name" class="ui-input-text">Usuario:</label>
+                        <input type="text" name="txtUsuario" id="txtUsuario"/>
+                        <label for="name" class="ui-input-text">Contraseña:</label>
+                        <input type="password" name="txtPassword" id="txtPassword"  />
+                        <br>
+                        <input type="button" id="btnLogin" data-icon="check" data-role="button" value="Login" />
+                    </li>
+                </ul>          
+            </div><!--content-->  
+        </div><!--page-->
+        <!-- FIN LOGIN -->
+
+        <!-- BANDEJA -->  
+        <div data-role="page" id="bandejaInspecciones">
+            <div data-role="header">
+                <a href="#" data-icon="bars" data-iconpos="notext" class="ui-btn-right " onClick="openPanel(menuBar)">Cancel</a>
+                <h1>Inspecciones
+
+                </h1>
+            </div><!-- /header --> 
+            <div data-role="panel" data-position="left" data-position-fixed="true" data-display="overlay"  id="menuBar">
+                <ul data-role="listview" id="ulMenu">
+                    <li data-role="list-divider"><h3>menu</h3></li>
+                    <li><a href="#" class="logOut" >Cerrar Sesión<img src="img/logout.png" class="icono"></a></li>
+                    <li><a href="#" class="menuLiviano" >Liviano<img src="img/car.png" class="icono"></a></li>
+                    <li><a href="#" class="menuPesado" >Pesado<img src="img/bus.png" class="icono"></a></li>
+                    <li><a href="#" class="sincronizar" >Sincronizar <img src="img/cloud.png" class="icono"><span id="countNoSincOT" class="ui-li-count">0</span></a></li>
+                </ul>
+            </div><!-- /panel -->       
+            <div  data-role="content"  >
+                <ul data-role="listview" id="listaInspecciones" >
+
+                </ul>
+
+            </div><!--content-->  
+        </div><!--page-->
+        <!-- FIN BANDEJA -->
+
+        <!-- INSPECCION -->
+        <div data-role="page" id="inspeccion" data-theme="c">
+            <div data-role="header">
+                <a href="#" data-icon="bars" data-iconpos="notext" class="ui-btn-right " onClick="openPanel(menuBarInsp)">Cancel</a>
+                <h3>Inspección</h3>  
+            </div>
+            <div data-role="panel" data-position="left" data-position-fixed="true" data-display="overlay"  id="menuBarInsp">
+                <ul data-role="listview" id="ulMenu">
+                    <li data-role="list-divider"><h3>menu</h3></li>
+                    <li><a href="#" class="logOut" >Cerrar Sesión<img src="img/logout.png" class="icono"></a></li>
+                    <li><a href="#" class="menuLiviano" >Liviano<img src="img/car.png" class="icono"></a></li>
+                    <li><a href="#" class="menuPesado" >Pesado<img src="img/bus.png" class="icono"></a></li>
+                    <li><a href="#" class="menuFallida" >Enviar Fallida<img src="img/warning.png" class="icono"></a></li>
+                    <li><a href="#" class="menuHito" >Agregar Híto<img src="img/edit.png" class="icono"></a></li>
+                    <li><a href="#" class="sincronizar" >Sincronizar <img src="img/cloud.png" class="icono"><span id="countNoSincOT" class="ui-li-count">0</span></a></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#bandejaInspecciones">Bandeja</a> </li>
+                    <li><a href="#inspeccion">Inspeccion</a> </li>
+                    <li><a href="#" onClick="mySelf.goToDanio()">Daños</a> </li>
+                    <li><a href="#" onClick="mySelf.goToAccesorios()">Accesorios</a> </li>
+                    <li><a href="#" onClick="mySelf.goToFoto()">Fotos</a> </li>
+
+                </ul>
+            </div><!-- /panel --> 
+
+            <div  data-role="content"  >
+
+                <ul data-role="listview" >
+                    <li>
+                        <label for="cboTipoInspeccion">Motivo Inspección:</label>
+                        <select id="cboTipoInspeccion">
+                            <option value="">Seleccione...</option>
+                            <option value="1">Seguro Nuevo</option>
+                            <option value="2">Reparación de Daños</option>
+                            <option value="3">Inclusión de Accesorios</option>
+                            <option value="4">Otros</option>
+                        </select>
+                        <label for="txtCorredor">Corredor</label>
+                        <input type="text" id="txtCorredor" readonly>  
+                        <label for="txtrutAsegurado ">RUT:</label>
+                        <input type="text" id="txtrutAsegurado" readonly> 
+                        <label for="txtnombreAsegurado">Asegurado</label>
+                        <input type="text" id="txtnombreAsegurado" readonly>
+                        <label for="txtdireccionAsegurado">Dirección:</label>
+                        <input type="text" id="txtdireccionAsegurado">
+                        <label for="txtcomunaAsegurado">Comuna:</label>
+
+                        <input type="text" id="txtcomunaAsegurado" readonly>
+                        <button  data-role="button" id="btnComunas">Comunas</button>
+                        <label for="txtfonoAsegurado">Telefono:</label>
+                        <input type="number" id="txtfonoAsegurado">
+                        <label for="txtCorreo">Email:</label>
+                        <input type="text" id="txtCorreo">    
+                        <label for="cboColor">Color:</label>
+                        <select id="cboColor">
+                            <option value="Seleccione">Seleccione...</option>
+                            <option value="Amarillo">Amarillo</option>
+                            <option value="Arena">Arena</option>
+                            <option value="Azul">Azul</option>
+                            <option value="Azul_Metalico">Azul Metalico</option>
+                            <option value="Baige">Baige</option>s
+                            <option value="Blanco">Blanco</option>
+                            <option value="Burdeo">Burdeo</option>
+                            <option value="Cafe">Cafe</option>
+                            <option value="Cafe_Moro">Cafe Moro</option>
+                            <option value="Celeste">Celeste</option>
+                            <option value="Cyan">Cyan</option>
+                            <option value="Dorado">Dorado</option>
+                            <option value="Gris">Gris</option>
+                            <option value="Lila">Lila</option>
+                            <option value="Marfil">Marfil</option>
+                            <option value="Marron">Marron</option>
+                            <option value="Morado">Morado</option>
+                            <option value="Naranjo">Naranjo</option>
+                            <option value="Negro">Negro</option>
+                            <option value="Otro_Color">Otro Color</option>
+                            <option value="Plateado">Plateado</option>
+                            <option value="Rojo">Rojo</option>
+                            <option value="Rojo_Cobre">Rojo Cobre</option>
+                            <option value="Rojo_Rubi">Rojo Rubi</option>
+                            <option value="Tivoli">Tivoli</option>
+                            <option value="Tivoli">Tivoli</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Verde_Claro">Verde Claro</option>
+                            <option value="verde_Metalico">verde Metalico</option>
+                            <option value="Verde_Petroleo">Verde Petroleo</option>
+                            <option value="Violeta">Violeta</option>
+                        </select>
+                        <label for="txtnroPuertas">Numero Puertas:</label>
+                        <input type="number" id="txtnroPuertas">
+                        <label for="txtmarca">Marca:</label>
+
+                        <input type="text" id="txtMarca" class="ui-obligatorio" readonly>  
+                        <button  data-role="button" id="btnMarcas">Marcas</button>
+                        <label for="txtmodelo">Modelo:</label>
+                        <select id="cboModelo" class="ui-obligatorio">
+                            
+                        </select>
+                        <label for="txtVersion">Version:</label>
+                        <input type="text" id="txtVersion">
+                        <label for="txtpatente">Patente:</label>
+                        <input type="text" id="txtpatente" class="ui-obligatorio">
+                        <label for="txtano">Año:</label>
+                        <input type="number" id="txtano" max="9999" maxlength="4" class="ui-obligatorio">
+
+                        <label for="cboTipoVehiculo">Tipo Vehiculo:</label>
+                        <select id="cboTipoVehiculo" class="ui-obligatorio">
+                            <!--<option value="">Seleccione...</option>
+                            <option value="1">Sedan  </option>
+                            <option value="2">Hatchback  </option>
+                            <option value="3">Coupé  </option>
+                            <option value="4">Station Wagon </option>
+                            <option value="5">Camioneta  </option>
+                            <option value="6">Jeep </option>
+                            <option value="7">Van  </option>
+                            <option value="8">Convertible </option>
+                            <option value="9">Moto</option>-->
+                        </select>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_tipoVeh" id="checkbox_v_4x4">
+                            <label for="checkbox_v_4x4">4x4</label>
+                            <input type="checkbox" name="checkbox_tipoVeh" id="checkbox_v_Dies">
+                            <label for="checkbox_v_Dies">Diesel</label>
+                        </fieldset>
+                        <label for="cboUsoVehiculo">Uso Vehiculo:</label>
+                        <select id="cboUsoVehiculo" class="cboUsoVehiculo ui-obligatorio">
+                           <!-- <option value="">Seleccione...</option>
+                            <option value="P">Particular</option>
+                            <option value="C">Comercial</option>
+                            <option value="D">Deportivo</option>
+                            <option value="R">Recreacional</option> -->
+                        </select> 
+                        <div id="divUsoVehiculo">
+                            <label id="lblUsoVehiculoComercial" for="cboUsoVehiculoComercial">Para uso Comercial:</label>
+                            <select id="cboUsoVehiculoComercial" class="cboUsoEspecial ui-obligatorio">
+                               <!-- <option value="">Seleccione...</option>
+                                <option value="1">Uso Empresa</option>
+                                <option value="2">Renta Car</option>
+                                <option value="3">Vehiculo de Turismo</option>
+                                <option value="4">Transporte Productos Quimicos, Toxicos o Similares</option>
+                                <option value="5">Taxy, Colectivo o Radio Taxy</option>
+                                <option value="6">Transportes Escolares</option>
+                                <option value="7">Ambulancias</option>
+                                <option value="8">Vehiculos Mineros</option>
+                                <option value="9">Fletes y Mudanzas</option>-->
+                            </select> 
+                        </div>
+                        <label for="txtmotor">Motor</label>
+                        <input type="number" id="txtmotor" maxlength="18" class="ui-obligatorio">
+                        <label for="txtchasis ">Chasis:</label>
+                        <input type="text" id="txtchasis" maxlength="18" class="ui-obligatorio">   
+                        <input id="btnAceptaInspeccion" type="button" value="Aceptar" data-icon="check" />
+                    </li>
+                </ul>
+
+
+            </div><!--content-->  
+        </div><!--page-->
+        <!-- FIN INSPECCION -->
+
+        <!-- COMUNAS -->
+        <div data-role="page" id="Comunas">
+            <div data-role="header">
+                <h1>Comunas
+                </h1>
+            </div><!-- /header -->         
+            <div  data-role="content"  >
+                <ul id="listaComunas" data-role="listview" data-inset="true" data-filter-reveal="true" data-filter="true">
+                   
+                </ul>
+            </div><!--content-->  
+        </div><!--page-->
+        <!-- FIN COMUNAS -->
+
+        <!-- MARCAS -->    
+        <div data-role="page" id="Marcas">
+            <div data-role="header">
+                <h1>Marcas
+                </h1>
+            </div><!-- /header --> 
+            <div  data-role="content"  >
+                <ul data-role="listview" id="listaMarcas" data-inset="true" data-filter-reveal="true" data-filter="true">
+                  
+                </ul>
+            </div><!--content-->  
+        </div><!--page-->   
+        <!-- FIN MARCAS -->
+
+        <!-- DAÑOS -->
+        <div data-role="page" id="detalleDanos" data-theme="c">
+            <div data-role="header">
+                <a href="#" data-icon="bars" data-iconpos="notext" class="ui-btn-right " onClick="openPanel(menuBarDanio)">Cancel</a>
+                <h3>Detalle Daños</h3>
+            </div>
+            <div data-role="panel" data-position="left" data-position-fixed="true" data-display="overlay"  id="menuBarDanio">
+                <ul data-role="listview" id="ulMenu">
+                    <li data-role="list-divider"><h3>menu</h3></li>
+                    <li><a href="#" class="logOut" >Cerrar Sesión<img src="img/logout.png" class="icono"></a></li>
+                    <li><a href="#" class="menuLiviano" >Liviano<img src="img/car.png" class="icono"></a></li>
+                    <li><a href="#" class="menuPesado" >Pesado<img src="img/bus.png" class="icono"></a></li>
+                    <li><a href="#" class="menuFallida" >Enviar Fallida<img src="img/warning.png" class="icono"></a></li>
+                    <li><a href="#" class="menuHito" >Agregar Híto<img src="img/edit.png" class="icono"></a></li>
+                    <li><a href="#" class="sincronizar" >Sincronizar <img src="img/cloud.png" class="icono"><span id="countNoSincOT" class="ui-li-count">0</span></a></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#bandejaInspecciones">Bandeja</a> </li>
+                    <li><a href="#inspeccion">Inspeccion</a> </li>
+                    <li><a href="#" onClick="mySelf.goToDanio()">Daños</a> </li>
+                    <li><a href="#" onClick="mySelf.goToAccesorios()">Accesorios</a> </li>
+                    <li><a href="#" onClick="mySelf.goToFoto()">Fotos</a> </li>
+
+                </ul>
+            </div><!-- /panel --> 
+            <div  data-role="content"  >
+                <div id="masDano" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="plus" data-theme="a" data-disabled="false" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">Añadir</span><span class="ui-icon ui-icon-plus ui-icon-shadow">&nbsp;</span></span></div>
+                <br>
+                <br>
+                <ul data-role="listview" id="ulDanos">
+                </ul>
+                <input id="btnAceptaDano" type="button" value="Aceptar" data-icon="check" />
+            </div><!--content-->  
+        </div><!--page-->
+        <!-- FIN DAÑOS -->  
+
+
+        <!-- ACCESORIOS -->
+        <div data-role="page" id="accesorios">
+            <div data-role="header">
+                <a href="#" data-icon="bars" data-iconpos="notext" class="ui-btn-right " onClick="openPanel(menuBarAcceso)">Cancel</a>
+                <h1>Accesorios
+                </h1>
+            </div><!-- /header --> 
+            <div data-role="panel" data-position="left" data-position-fixed="true" data-display="overlay"  id="menuBarAcceso">
+                <ul data-role="listview" id="ulMenu">
+                    <li data-role="list-divider"><h3>menu</h3></li>
+                    <li><a href="#" class="logOut" >Cerrar Sesión<img src="img/logout.png" class="icono"></a></li>
+                    <li><a href="#" class="menuLiviano" >Liviano<img src="img/car.png" class="icono"></a></li>
+                    <li><a href="#" class="menuPesado" >Pesado<img src="img/bus.png" class="icono"></a></li>
+                    <li><a href="#" class="sincronizar" >Sincronizar <img src="img/cloud.png" class="icono"><span id="countNoSincOT" class="ui-li-count">0</span></a></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#bandejaInspecciones">Bandeja</a> </li>
+                    <li><a href="#inspeccion">Inspeccion</a> </li>
+                    <li><a href="#" onClick="mySelf.goToDanio()">Daños</a> </li>
+                    <li><a href="#"  onClick="mySelf.goToAccesorios()">Accesorios</a> </li>
+                    <li><a href="#foto">Fotos</a> </li>
+                </ul>
+            </div><!-- /panel -->           
+            <div  data-role="content"  >
+                <ul data-role="listview" id="registroInspeccione" >
+                    <li data-role="list-divider">Neumaticos</li>
+                    <li>
+                        <label for="txtCantidadNeumaticos">Cantidad:</label>
+                        <input type="number" id="txtCantidadNeumaticos"> 
+                       
+                        <label for="txtMedidas">Medidas:</label>
+                        <input type="text" id="txtMedidas">
+                        <fieldset data-role="controlgroup">
+                            <input type="radio" name="rueda-choice_v_2" id="rueda-choice_v_1a" value="RNorm" >
+                            <label for="rueda-choice_v_1a">Repuesto Normal</label>
+                            <input type="radio" name="rueda-choice_v_2" id="rueda-choice_v_1b" value="REmer">
+                            <label for="rueda-choice_v_1b">Repuesto Emergencia</label>
+                        </fieldset>  
+                    </li>
+                    
+                    <li data-role="list-divider"  data-theme="a">Daño Neumaticos</li>
+                </ul>
+                <br><br>
+                <ul data-role="listview" id="ulDanoNeumaticos" >
+                </ul>
+                <br>
+                    <button id="masDanoNeumatico" data-icon="plus" >Añadir</button>
+                    <br>
+                     <ul data-role="listview"  >
+                    <li data-role="list-divider">Tapa de Ruedas</li>
+                    <li>
+
+
+                        <label for="">Ubicación:</label>  
+                        <select class="cboUbicacionDanoTapas cboUbicacion">
+                        </select>
+                        <label for="txtCantidadTapas">Cantidad:</label>
+                        <input type="number" id="txtCantidadTapas"> 
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_tapa" id="checkbox_v_cs">
+                            <label for="checkbox_v_cs">Seguro</label>
+                            <input type="radio" name="radio_choice_t-2" id="radio_choice_t-1a" value="tc" >
+                            <label for="radio_choice_t-1a">Tapa de Cono</label>
+                            <input type="radio" name="radio_choice_t-2" id="radio_choice_t-1b" value="tm">
+                            <label for="radio_choice_t-1b">Tapa de Masa</label>
+                        </fieldset>
+                        <label for="cboTipoDano">Tipo Daño:</label>
+                        <select class="cboTipoDanoTapas">
+                            <option value="">Seleccione...</option>
+                            <option value="1">Abolladura</option>
+                            <option value="2">Rayadura</option>
+                            <option value="3">Rotura</option>
+                            <option value="4">Trizadura</option>
+                            <option value="5">Corrosión</option>
+                            <option value="6">Oxidación</option>
+                            <option value="7">Faltantes</option>
+                            <option value="8">Desabolladura Defectuosa</option>
+                            <option value="9">Pintura Deteriorada</option>
+                            <option value="10">Sin Pintura</option>
+                            <option value="11">Saltaduras</option>
+                            <option value="12">Desgaste</option>
+                        </select>
+                        <label for="txtDeducibleTapas">Deducible:</label>
+                        <select class="cboDeducibleTapas">
+                            <option value="">Seleccione...</option>
+                            <option value="1">0</option>
+                            <option value="2">0,5</option>
+                            <option value="3">1</option>
+                            <option value="4">1,5</option>
+                            <option value="5">2</option>
+                            <option value="6">2,5</option>
+                            <option value="7">3</option>
+                            <option value="8">3,5</option>
+                            <option value="9">4</option>
+                            <option value="10">4,5</option>
+                            <option value="11">5</option>
+                        </select>
+                    </li>
+                    <li data-role="list-divider">Llantas</li>
+                    <li>      
+                        <label for="cboMaterial">Material:</label>
+                        <select class="cboMaterial">
+                            <option value="">Seleccione...</option>
+                            <option value="Aleacion">Aleacion</option>
+                            <option value="Fierro">Fierro</option>
+                        </select>
+
+                        <label for="">Ubicación:</label>   
+                        <select class="cboUbicacionDanoLlantas cboUbicacion">
+                        </select>
+                        <label for="txtCantidadTapas">Cantidad:</label>
+                        <input type="number" id="txtCantidadTapas"> 
+
+                        <label for="txtMarcaLlantas">Marca:</label>
+                        <input type="text" id="txtMarcaLlantas"> 
+                        <label for="cboDeducibleLlanatas">Deducible:</label>
+                        <select class="cboDeducibleLlanatas">
+                            <option value="">Seleccione...</option>
+                            <option value="1">0</option>
+                            <option value="2">0,5</option>
+                            <option value="3">1</option>
+                            <option value="4">1,5</option>
+                            <option value="5">2</option>
+                            <option value="6">2,5</option>
+                            <option value="7">3</option>
+                            <option value="8">3,5</option>
+                            <option value="9">4</option>
+                            <option value="10">4,5</option>
+                            <option value="11">5</option>
+                        </select>
+                        <label for="cboTipoDano">Tipo Daño:</label>
+                        <select class="cboTipoDanoLlantas">
+                            <option value="">Seleccione...</option>
+                            <option value="1">Abolladura</option>
+                            <option value="2">Rayadura</option>
+                            <option value="3">Rotura</option>
+                            <option value="4">Trizadura</option>
+                            <option value="5">Corrosión</option>
+                            <option value="6">Oxidación</option>
+                            <option value="7">Faltantes</option>
+                            <option value="8">Desabolladura Defectuosa</option>
+                            <option value="9">Pintura Deteriorada</option>
+                            <option value="10">Sin Pintura</option>
+                            <option value="11">Saltaduras</option>
+                            <option value="12">Desgaste</option>
+                        </select>
+
+                    </li>
+                    <li data-role="list-divider">Radio</li>
+                    <li>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_v_1" id="checkbox_v_1">
+                                <label for="checkbox_v_1">Radio</label>
+                            <input type="radio" name="radio_choice_v_2" id="radio_choice_v_1a" value="PD" >
+                                <label for="radio_choice_v_1a">PD</label>
+                            <input type="radio" name="radio_choice_v_2" id="radio_choice_v_1b" value="PF">
+                                <label for="radio_choice_v_1b">PF</label>
+                            <input type="checkbox" name="checkbox_v_3" id="checkbox_v_1a">
+                                <label for="checkbox_v_1a">CD</label>
+                            <input type="checkbox" name="checkbox_v_3" id="checkbox_v_1b">
+                                <label for="checkbox_v_1b">Casette</label>
+                        </fieldset>
+                        <label for="txtMarcaRadio">Marca:</label>
+                        <input type="text" id="txtMarcaRadio">
+                        <label for="txtModeloRadio ">Modelo:</label>
+                        <input type="text" id="txtModeloRadio">
+                    </li>
+                    <li data-role="list-divider">Accesorios Radio</li>
+                    <li>  
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_v_2" id="checkbox_v_2">
+                            <label for="checkbox_v_2">Parlantes</label>
+                        </fieldset>
+                        <label for="txtCantidadParlantes">Cantidad:</label>
+                        <input type="text" id="txtCantidadParlantes">
+                        <label for="txtMarcaParlantes">Marca:</label>
+                        <input type="text" id="txtMarcaParlantes"> 
+
+
+                        <!-- Amplificador -->
+                    </li>
+                    <li data-role="list-divider">Amplificador</li>
+                    <li> 
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_Amplificador" id="checkbox_Amplificador-Amp">
+                            <label for="checkbox_Amplificador-Amp">Amplificador</label>
+                            <input type="checkbox" name="checkbox_Amplificador" id="checkbox_Amplificador-Aper">
+                            <label for="checkbox_Amplificador-Aper">Aper.</label>
+                        </fieldset>
+                        <label for="txtCantidadAmplificador">Cantidad:</label>
+                        <input type="text" id="txtCantidadAmplificador">
+                        <label for="txtMarcaAmplificador">Marca:</label>
+                        <input type="text" id="txtMarcaAmplificador">
+                        <label for="txtModeloAmplificador">Modelo:</label>
+                        <input type="text" id="txtModeloAmplificador">
+                        <label for="">Ubicación:</label>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_Amplificador" id="checkbox_Amplificador-m">
+                            <label for="checkbox_Amplificador-m">Maleta</label>
+                            <input type="checkbox" name="checkbox_Amplificador" id="checkbox_Amplificador-a">
+                            <label for="checkbox_Amplificador-a">Asiento</label>
+                            <input type="checkbox" name="checkbox_Amplificador" id="checkbox_Amplificador-pa">
+                            <label for="checkbox_Amplificador-pa">Panel</label>
+                        </fieldset>
+                    </li>
+                    <li data-role="list-divider">Caja Compac</li>
+                    <li> 
+                        <!-- CajaCompac -->
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_CajaCompac" id="checkbox_CajaCompac-cc">
+                            <label for="checkbox_CajaCompac-cc">Caja Compac</label>
+                            <input type="checkbox" name="checkbox_CajaCompac" id="checkbox_CajaCompac-Aper">
+                            <label for="checkbox_CajaCompac-Aper">Aper.</label>
+                        </fieldset>
+                        <label for="txtCantidadCajaCompac">Cantidad:</label>
+                        <input type="text" id="txtCantidadCajaCompac">
+                        <label for="txtMarcaCajaCompac">Marca:</label>
+                        <input type="text" id="txtMarcaCajaCompac">
+                        <label for="txtModeloCajaCompac">Modelo:</label>
+                        <input type="text" id="txtModeloCajaCompac">
+                        <label for="">Ubicación:</label> 
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_CajaCompac" id="checkbox_CajaCompac-m">
+                            <label for="checkbox_CajaCompac-m">Maleta</label>
+                            <input type="checkbox" name="checkbox_CajaCompac" id="checkbox_CajaCompac-a">
+                            <label for="checkbox_CajaCompac-a">Asiento</label>
+                            <input type="checkbox" name="checkbox_CajaCompac" id="checkbox_CajaCompac-pa">
+                            <label for="checkbox_CajaCompac-pa">Panel</label>
+                        </fieldset>
+                        <label for="txtCapacidadCajaCompac">Cantidad:</label>
+                        <input type="number" id="txtCapacidadCajaCompac">
+                    </li>
+                    <li data-role="list-divider">DVD</li>
+                    <li> 
+                        <!-- DVD -->
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_DVD" id="checkbox_DVD-cc">
+                            <label for="checkbox_DVD-cc">DVD</label>
+                            <input type="checkbox" name="checkbox_DVD" id="checkbox_DVD-Aper">
+                            <label for="checkbox_DVD-Aper">Aper.</label>
+                        </fieldset>
+                        <label for="txtMarcaDVD">Marca:</label>
+                        <input type="text" id="txtMarcaDVD">
+                        <label for="txtModeloDVD">Modelo:</label>
+                        <input type="text" id="txtModeloDVD">
+                        <label for="">Ubicación:</label> 
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_DVD" id="checkbox_DVD-m">
+                            <label for="checkbox_DVD-m">Maleta</label>
+                            <input type="checkbox" name="checkbox_DVD" id="checkbox_DVD-a">
+                            <label for="checkbox_DVD-a">Asiento</label>
+                            <input type="checkbox" name="checkbox_DVD" id="checkbox_DVD-pa">
+                            <label for="checkbox_DVD-pa">Panel</label>
+                        </fieldset>
+                        <label for="txtCapacidadDVD">Capacidad:</label>
+                        <input type="number" id="txtCapacidadDVD">
+                    </li>
+                    <li data-role="list-divider">Tweeter</li>
+                    <li> 
+                        <!-- Tweeter -->
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_Tweeter" id="checkbox_Tweeter-cc">
+                            <label for="checkbox_Tweeter-cc">Tweeter</label>
+                            <input type="checkbox" name="checkbox_Tweeter" id="checkbox_Tweeter-Aper">
+                            <label for="checkbox_Tweeter-Aper">Aper.</label>
+                        </fieldset>
+                        <label for="txtCantidadTweter">Cantidad:</label>
+                        <input type="text" id="txtCantidadTweter">
+                        <label for="txtMarcaTweeter">Marca:</label>
+                        <input type="text" id="txtMarcaTweeter">
+                        <label for="txtModeloTweeter">Modelo:</label>
+                        <input type="text" id="txtModeloTweeter">
+                        <label for="">Ubicación:</label> 
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_Tweeter" id="checkbox_Tweeter-pa">
+                            <label for="checkbox_Tweeter-pa">Panel</label>
+                            <input type="checkbox" name="checkbox_Tweeter" id="checkbox_Tweeter-pi">
+                            <label for="checkbox_Tweeter-pi">Pilares</label>
+                            <input type="checkbox" name="checkbox_Tweeter" id="checkbox_Tweeter-tu">
+                            <label for="checkbox_Tweeter-tu">Tu</label>
+                        </fieldset>
+
+                    </li>
+                    <li data-role="list-divider">Woofer</li>
+                    <li> 
+                        <!-- Woofer -->
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_Woofer" id="checkbox_Woofer-wf">
+                            <label for="checkbox_Woofer-wf">Woofer</label>
+                            <input type="checkbox" name="checkbox_Woofer" id="checkbox_Woofer-Aper">
+                            <label for="checkbox_Woofer-Aper">Aper.</label>
+                        </fieldset>
+                        <label for="txtCantidadWoofer">Cantidad:</label>
+                        <input type="text" id="txtCantidadWoofer">
+                        <label for="txtMarcaWoofer">Marca:</label>
+                        <input type="text" id="txtMarcaWoofer">
+                        <label for="txtModeloWoofer">Modelo:</label>
+                        <input type="text" id="txtModeloWoofer">
+                        <label for="">Ubicación:</label> 
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_Woofer" id="checkbox_Woofer-m">
+                            <label for="checkbox_Woofer-m">Maleta</label>
+                        </fieldset>
+                    </li>
+                    <li data-role="list-divider">Pantalla</li>
+                    <li> 
+                        <!-- Pantalla -->
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_Pantalla" id="checkbox_Pantalla-pa">
+                            <label for="checkbox_Pantalla-pa">Pantalla</label>
+                            <input type="checkbox" name="checkbox_Pantalla" id="checkbox_Pantalla-Aper">
+                            <label for="checkbox_Pantalla-Aper">Aper.</label>
+                        </fieldset>
+                        <label for="txtCantidadPantalla">Cantidad:</label>
+                        <input type="text" id="txtCantidadPantalla">
+                        <label for="txtMarcaPantalla">Marca:</label>
+                        <input type="text" id="txtMarcaPantalla">
+                        <label for="txtModeloPantalla">Modelo:</label>
+                        <input type="text" id="txtModeloPantalla">
+                        <label for="">Ubicación:</label> 
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_Pantalla" id="checkbox_Pantalla-m">
+                            <label for="checkbox_Pantalla-m">Maleta</label>
+                        </fieldset>
+                        <label for="txtCapacidadPantalla">Capacidad:</label>
+                        <input type="number" id="txtCapacidadWoofer">
+
+                    </li>
+                    <li data-role="list-divider">Accesorios</li>
+                    <li>  
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_sunRoof" id="checkbox_v_sunRoof">
+                                <label for="checkbox_v_sunRoof" class="par">Sun Roof</label>
+                            <input type="radio" name="radio_choice_sunRoof" id="radio_choice_sunRoofa" value="on" >
+                                <label for="radio_choice_sunRoofa" class="par">Manual</label>
+                            <input type="radio" name="radio_choice_sunRoof" id="radio_choice_sunRoofb" value="off">
+                                <label for="radio_choice_sunRoofb" class="par">Electrico</label>
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_retrovisor" id="checkbox_retrovisor">
+                                <label for="checkbox_retrovisor">Espejo Retrovisor Interno</label>
+                            <input type="radio" name="radio_choice_retrovisor" id="radio_choice_retrovisora" value="on" >
+                                <label for="radio_choice_retrovisora">Manual</label>
+                            <input type="radio" name="radio_choice_retrovosor" id="radio_choice_retrovisorb" value="off">
+                                <label for="radio_choice_retrovisorb">Electrico</label>
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_faldones" id="checkbox_faldones">
+                                <label for="checkbox_faldones"  class="par">Faldones Laterales</label>
+                         </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_logotipo" id="checkbox_logotipoa">
+                                <label for="checkbox_logotipoa">Logotipo Delantero</label>
+                            <input type="checkbox" name="checkbox_logotipo" id="checkbox_logotipob">
+                                <label for="checkbox_logotipob">Logotipo Trasero</label>
+                         </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_antena" id="checkbox_antenaa">
+                            <label for="checkbox_antenaa" class="par">Antena</label>
+                            <input type="checkbox" name="checkbox_antena" id="checkbox_antenab">
+                            <label for="checkbox_antenab" class="par">Ant. Electrica</label>
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_AlzaV" id="checkbox_AlzaVa">
+                                <label for="checkbox_AlzaVa">Alzavidrios Eléctrico</label>
+                            <input type="checkbox" name="checkbox_AlzaV" id="checkbox_AlzaVb">
+                                <label for="checkbox_AlzaVb">Alza V. Delanteros</label>
+                            <input type="checkbox" name="checkbox_AlzaV" id="checkbox_AlzaVc">
+                                <label for="checkbox_AlzaVc">Alza V. Traseros</label>
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_LimpPara" id="checkbox_LimpPara">
+                            <label for="checkbox_LimpPara"  class="par">Limpia Parabrisas</label>
+                            
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_aleron" id="checkbox_alerona">
+                                <label for="checkbox_alerona">Alerón</label>
+                            <input type="checkbox" name="checkbox_aleron" id="checkbox_aleronb">
+                                <label for="checkbox_aleronb">Portalón</label>
+                            
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_maleta" id="checkbox_maletaa">
+                                <label for="checkbox_maletaa" class="par">Maleta</label>
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_v_3" id="checkbox_v_16a">
+                            <label for="checkbox_v_16a">Tubo Escape</label>
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <input type="checkbox" name="checkbox_v_3" id="checkbox_v_17a">
+                            <label for="checkbox_v_17a" class="par">Coco Arrastre</label>
+                        </fieldset>
+
+                        <label for="txtAccesorios">Otros Accesorios, detallar (marca y modelo):</label>
+                        <textarea type="text" id="txtAccesorios"> </textarea>
+
+
+                        <fieldset data-role="controlgroup">
+                            <label for="checkbox_v_2b" class="par">Aire Acondicionado Original</label>
+                            <input type="checkbox" name="checkbox_v_2a" id="checkbox_v_2b">
+                            <label for="checkbox_v_3b" class="par">Aire Acondicionado Otro</label>
+                            <input type="checkbox" name="checkbox_v_2a" id="checkbox_v_3b">
+                            <label for="checkbox_v_5b" class="par">Alarma Original</label>
+                            <input type="checkbox" name="checkbox_v_2a" id="checkbox_v_5b">
+                            <label for="checkbox_v_6b" class="par">Alarma Otro</label>
+                            <input type="checkbox" name="checkbox_v_2a" id="checkbox_v_6b">
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <label for="checkbox_v_1c">Air Bag</label>
+                            <input type="checkbox" name="checkbox_v_2c" id="checkbox_v_1c">
+                            <input type="radio" name="radio_choice_v_2" id="radio_choice_v_2a" value="simple" >
+                            <label for="radio_choice_v_2a">Simple</label>
+                            <input type="radio" name="radio_choice_v_2" id="radio_choice_v_2b" value="doble">
+                            <label for="radio_choice_v_2b">Doble</label>
+                            <input type="radio" name="radio_choice_v_2" id="radio_choice_v_2c" value="mas" >
+                            <label for="radio_choice_v_2c">Más de 4 (Regist.)</label>
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <label for="checkbox_v_1d" class="par">Transm. Autom.</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_1d">
+                            <label class="par" for="checkbox_v_2d">Spoller</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_2d">
+                            <label class="par" for="checkbox_v_3d">Neblineros</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_3d">
+                            <label class="par" for="checkbox_v_4d">Deflector Mataperro</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_4d">
+                            <label class="par" for="checkbox_v_5d">Winche (Regist.)</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_5d">
+                            <label class="par" for="checkbox_v_6d">Rueda Repuesto Interna</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_6d">
+                            <label class="par" for="checkbox_v_7d">Rueda Repuesto Externa</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_7d">
+                            <label class="par" for="checkbox_v_8d">Control Crucero</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_8d">
+                            <label class="par" for="checkbox_v_9d">Cierre Centralizado</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_9d">
+                            <label class="par" for="checkbox_v_10d">Extintor</label>
+                            <input type="checkbox" name="checkbox_v_d" id="checkbox_v_10d">
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <label  for="checkbox_v_1e">Parrilla Orig.</label>
+                            <input type="checkbox" name="checkbox_v_e" id="checkbox_v_1e">
+                            <label for="checkbox_v_2e">Parrilla Otro</label>
+                            <input type="checkbox" name="checkbox_v_e" id="checkbox_v_2e">
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <label for="checkbox_v_pUp1">Cubre Pick Up</label>
+                            <input type="checkbox" name="checkbox_v_pUp" id="checkbox_v_pUp1">
+                            <label for="checkbox_v_pUp2">Lona Cubre Pick Up</label>
+                            <input type="checkbox" name="checkbox_v_pUp" id="checkbox_v_pUp2">
+                            <label for="checkbox_v_pUp3">Tapa Rigida Cubre Pick Up</label>
+                            <input type="checkbox" name="checkbox_v_pUp" id="checkbox_v_pUp3">
+                            
+                        </fieldset>
+                         <fieldset data-role="controlgroup">
+                            <label for="checkbox_v_pe1">Perliga</label>
+                            <input type="checkbox" name="checkbox_v_pe" id="checkbox_v_pe1">
+                            <label for="checkbox_v_pe2">Baliza</label>
+                            <input type="checkbox" name="checkbox_v_pe" id="checkbox_v_pe2">
+                            <label for="checkbox_v_pe3">Caja Herramientas</label>
+                            <input type="checkbox" name="checkbox_v_pe" id="checkbox_v_pe3" checked="true">
+                            <label for="checkbox_v_pe4">Barra antivuelco</label>
+                            <input type="checkbox" name="checkbox_v_pe" id="checkbox_v_pe4">
+								 <label for="checkbox_v_pe5">Caja Herramientas</label>
+                            <input type="checkbox" name="checkbox_v_pe" id="checkbox_v_pe5"> 
+                        </fieldset>
+                       <fieldset data-role="controlgroup">
+                            <label for="checkbox_v_bAb1">Barra Antivuelco</label>
+                            <input type="checkbox" name="checkbox_v_bAb" id="checkbox_v_bAb1">
+                            <input type="radio" name="radio_choice_v_bAbR" id="radio_choice_v_bAb1" value="Internas" >
+                            <label for="radio_choice_v_bAb1">Internas</label>
+                            <input type="radio" name="radio_choice_v_bAbR" id="radio_choice_v_bAbR2" value="Externas">
+                            <label for="radio_choice_v_bAbR2">Externas</label>
+                       </fieldset>
+                       <fieldset data-role="controlgroup">
+                            <label for="checkbox_v_cR">Camara de Retroceso</label>
+                            <input type="checkbox" name="checkbox_v_cR" id="checkbox_v_cR">
+                            
+                            <label for="checkbox_v_sI">Sensores de Impacto</label>
+                            <input type="checkbox" name="checkbox_v_sI" id="checkbox_v_sI" onClick="habilitaSensores()">
+                            <input type="radio" name="radio_choice_v_sIR" id="radio_choice_v_sIR1" value="Delanteros" >
+                            <label for="radio_choice_v_sIR1">Delanteros</label>
+                            <input type="radio" name="radio_choice_v_sIR" id="radio_choice_v_sIR2" value="Traseros">
+                            <label for="radio_choice_v_sIR2">Traseros</label>
+                       </fieldset>
+                        <label for="txtParrillaMarca">Parrilla Marca:</label>
+                        <input type="text" id="txtParrillaMarca"> 
+                        <label for="txtKilometraje">Kilometraje:</label>
+                        <input type="text" id="txtKilometraje">
+                        <label for="txtCapacidadTecnica">Capacidad Tecnica:</label>
+                        <input type="text" id="txtCapacidadTecnica">  
+                        <fieldset data-role="controlgroup">
+                            <label for="checkbox_v_1f">Grabado de patenta</label>
+                            <input type="checkbox" name="checkbox_v_f" id="checkbox_v_1f">
+                            <label for="checkbox_v_2f">GPS</label>
+                            <input type="checkbox" name="checkbox_v_f" id="checkbox_v_2f">
+                            <label for="checkbox_v_3f">Evaluar Suscriptor</label>
+                            <input type="checkbox" name="checkbox_v_f" id="checkbox_v_3f">
+                        </fieldset>
+                        <fieldset data-role="controlgroup">
+                            <legend>Observaciones del Inspector para la Póliza</legend>
+                            <label for="checkbox_v_1g">Importación Directa</label>
+                            <input type="checkbox" name="checkbox_v_g" id="checkbox_v_1g">
+                            <label for="checkbox_v_2g">Mercado Local</label>
+                            <input type="checkbox" name="checkbox_v_g" id="checkbox_v_2g">
+                        </fieldset>
+
+                        <label for="txtObs">Observaciones del Inspector para la suscripción:</label>
+                        <textarea type="text" id="txtObs"> </textarea>
+                        <input id="btnAceptaAccesorios" type="button" value="Aceptar" data-icon="check" />
+
+                    </li>
+                </ul>
+
+            </div><!--content-->  
+        </div><!--page-->
+        <!-- FIN ACCESORIOS -->
+
+        <!-- FOTO -->     
+        <div data-role="page" id="foto">
+            <div data-role="header" >
+                <a href="#" data-icon="bars" data-iconpos="notext" class="ui-btn-right " onClick="openPanel(menuBarFoto)">Cancel</a>
+                <h3>Inspecciones</h3>
+
+            </div><!-- header -->
+            <div data-role="panel" data-position="left" data-position-fixed="true" data-display="overlay"  id="menuBarFoto">
+                <ul data-role="listview" id="ulMenu">
+                    <li data-role="list-divider"><h3>menu</h3></li>
+                    <li><a href="#" class="logOut" >Cerrar Sesión<img src="img/logout.png" class="icono"></a></li>
+                    <li><a href="#" class="menuLiviano" >Liviano<img src="img/car.png" class="icono"></a></li>
+                    <li><a href="#" class="menuPesado" >Pesado<img src="img/bus.png" class="icono"></a></li>
+                    <li><a href="#" class="sincronizar" >Sincronizar <img src="img/cloud.png" class="icono"><span id="countNoSincOT" class="ui-li-count">0</span></a></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#bandejaInspecciones">Bandeja</a> </li>
+                    <li><a href="#inspeccion">Inspeccion</a> </li>
+                    <li><a href="#" onClick="mySelf.goToDanio()">Daños</a> </li>
+                    <li><a href="#"  onClick="mySelf.goToAccesorios()">Accesorios</a> </li>
+                    <li><a href="#foto">Fotos</a> </li>
+                </ul>
+            </div><!-- /panel --> 
+            <div  data-role="content" align="center"  id="album" >
+                <h1 id="vistaFallida">Visita Fallida</h1>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button  onclick="fromGalery()">Galeria</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button  onclick="fromCamera()">Cámara</button>
+                    </div>
+                </div>
+                 <br>
+                <img style="display:none;width:100%;" id="smallImage" src="" />
+            </div><!--content-->  
+            <div data-role="footer" data-position="fixed"  id="id__" class="">    
+                <div data-role="navbar"  data-iconpos="left">
+                    <ul>
+                        <li><a href="#" id="btnFinalizar" id="" data-icon="arrow-l" >Finalizar</a></li>
+                    </ul>
+                </div><!-- /navbar -->
+            </div><!-- /footer --> 
+        </div><!--page-->
+        <!-- FIN FOTO -->    
+
+        <!-- HITO -->
+        <div data-role="page" id="hito" data-theme="c">
+            <div data-role="header">
+                <a href="#" data-icon="bars" data-iconpos="notext" class="ui-btn-right " onClick="openPanel(menuBarInsp)">Cancel</a>
+                <h3>Bitacora</h3>  
+            </div>
+            <div data-role="panel" data-position="left" data-position-fixed="true" data-display="overlay"  id="menuBarInsp">
+                <ul data-role="listview" id="ulMenu">
+                    <li data-role="list-divider"><h3>menu</h3></li>
+                    <li><a href="#" class="logOut" >Cerrar Sesión<img src="img/logout.png" class="icono"></a></li>
+                    <li><a href="#" class="menuLiviano" >Liviano<img src="img/car.png" class="icono"></a></li>
+                    <li><a href="#" class="menuPesado" >Pesado<img src="img/bus.png" class="icono"></a></li>
+                    <li><a href="#" class="menuFallida" >Enviar Fallida<img src="img/warning.png" class="icono"></a></li>
+                    <li><a href="#" class="menuHito" >Agregar Híto<img src="img/edit.png" class="icono"></a></li>
+                    <li><a href="#" class="sincronizar" >Sincronizar <img src="img/cloud.png" class="icono"><span id="countNoSincOT" class="ui-li-count">0</span></a></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#bandejaInspecciones">Bandeja</a> </li>
+                    <li><a href="#inspeccion">Inspeccion</a> </li>
+                </ul>
+            </div>
+
+            <div  data-role="content"  >
+
+                <ul data-role="listview" >
+                    <li>
+                        <label for="txtHito">Nuevo Hito</label>
+                        <textarea type="number" id="txtHito" maxlength="18" class="ui-obligatorio"></textarea>
+                        <input id="btnAceptaHito" type="button" value="Aceptar" data-icon="check" />
+                    </li>
+                </ul>
+            </div>
+        </div><!--page-->
+        <!-- FIN HITO -->
+    </body>
+    <script src="js/libs/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="js/libs/jquery.mobile-1.3.2.min.js" type="text/javascript"></script>
+    <script src="cordova-2.4.0.js"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+</html>
