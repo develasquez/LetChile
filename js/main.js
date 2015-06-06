@@ -166,6 +166,7 @@ var inspeccionFallida = false;
         return returnArray[0];
     };
     document.addEventListener("deviceready", function(event){
+        navigator.splashscreen.hide();
         document.addEventListener("backbutton", function (event) {
             var hash = document.location.hash;
             for(var i=1;i<paginas.length;i++){
@@ -1866,13 +1867,23 @@ $(function() {
             alert(ex);
         }
     }
-    function fromGalery() {   
-        navigator.camera.getPicture(onPhotoDataSuccess, onFail, {quality: 100,
-            destinationType: destinationType.FILE_URI, sourceType:sourceType.PHOTOLIBRARY});//
+    function fromGalery() {  
+        try{
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, {quality: 100,
+                destinationType: destinationType.FILE_URI, sourceType:sourceType.PHOTOLIBRARY});//
+        }
+        catch(ex){
+            alert(JSON.stringify(ex));
+        } 
     };
     function fromCamera() {
-        navigator.camera.getPicture(onPhotoDataSuccess, onFail, {quality: 100,
-            destinationType: destinationType.FILE_URI, sourceType:sourceType.CAMERA, saveToPhotoAlbum: true});//
+        try{
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, {quality: 100,
+                destinationType: destinationType.FILE_URI, sourceType:sourceType.CAMERA, saveToPhotoAlbum: true});//
+        }
+        catch(ex){
+            alert(JSON.stringify(ex))
+        }
     };
     function onFail(message) {
         //navigator.camera.getPicture(onPhotoDataSuccess, onFail2, {quality: 50,
