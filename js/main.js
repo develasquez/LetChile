@@ -166,7 +166,6 @@ var inspeccionFallida = false;
         return returnArray[0];
     };
     document.addEventListener("deviceready", function(event){
-        navigator.splashscreen.hide();
         document.addEventListener("backbutton", function (event) {
             var hash = document.location.hash;
             for(var i=1;i<paginas.length;i++){
