@@ -166,8 +166,6 @@ var inspeccionFallida = false;
         return returnArray[0];
     };
     document.addEventListener("deviceready", function(event){
-        pictureSource = navigator.camera.PictureSourceType;
-        destinationType = navigator.camera.DestinationType;
         document.addEventListener("backbutton", function (event) {
             var hash = document.location.hash;
             for(var i=1;i<paginas.length;i++){
